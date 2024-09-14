@@ -5,3 +5,6 @@
 
 아키텍처
 ![image](https://github.com/user-attachments/assets/fc9b8e1c-771b-4fa1-8263-598ce3a742d4)
+
+YFinance HTTP Get 요청
+![image](https://github.com/user-attachments/assets/7ef1d105-0b3c-40bc-9011-c9db96ca277a)
