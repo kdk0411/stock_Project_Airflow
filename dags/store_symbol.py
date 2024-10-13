@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.sensors.http import HttpSensor
+from airflow.providers.http.sensors.http import HttpSensor
 from airflow.hooks.base import BaseHook
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from datetime import datetime
@@ -36,12 +36,14 @@ with DAG(
     get_most_active_stocks = PythonOperator(
         task_id='get_most_active_stocks',
         python_callable=_get_most_active_stocks,
-        op_kwargs={'url': full_url}
+        op_kwargs={'url': full_url},
+        do_xcom_push=True
     )
     
     store_symbols = PythonOperator(
         task_id='store_symbols',
         python_callable=_store_symbols,
+        op_kwargs={'symbols': "{{ ti.xcom_pull(task_ids='get_most_active_stocks') }}"}
     )
     
     trigger_get_stock_prices_dag = TriggerDagRunOperator(
